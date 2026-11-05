@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Claude — твоя команда</title>
+<meta name="description" content="Практикум для предпринимателей: 8 «сотрудников» Claude с готовыми заданиями на казахском и русском.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Unbounded:wght@600;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FAF6EF; --paper:#FFFFFF; --ink:#1E1B18; --muted:#6B635A; --line:#E7DED1;
+  --accent:#D9623B; --accent-soft:#FBE6DC; --gold:#C9952B; --gold-soft:#F7EBCF;
+  --free:#2F7D4F; --free-soft:#DFF1E5; --code:#2A2420; --code-ink:#F6EFE6;
+  --shadow:0 1px 2px rgba(30,27,24,.06),0 6px 20px rgba(30,27,24,.06);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#171412; --paper:#221E1B; --ink:#F3ECE3; --muted:#B3A99D; --line:#3A332D;
+  --accent:#F07A52; --accent-soft:#3D2419; --gold:#E2B353; --gold-soft:#3A2F17;
+  --free:#6BCB8F; --free-soft:#183223; --code:#0F0D0C; --code-ink:#F6EFE6;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 20px rgba(0,0,0,.25);
+}}
+:root[data-theme="dark"]{
+  --bg:#171412; --paper:#221E1B; --ink:#F3ECE3; --muted:#B3A99D; --line:#3A332D;
+  --accent:#F07A52; --accent-soft:#3D2419; --gold:#E2B353; --gold-soft:#3A2F17;
+  --free:#6BCB8F; --free-soft:#183223; --code:#0F0D0C; --code-ink:#F6EFE6;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+a{color:var(--accent)}
+.wrap{max-width:980px;margin:0 auto;padding:0 16px}
+h1,h2,h3{font-family:Unbounded,Inter,system-ui,sans-serif;line-height:1.15;margin:0}
+
+/* top bar */
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 0}
+.org{font-size:13px;color:var(--muted);font-weight:500}
+.lang{display:inline-flex;background:var(--paper);border:1px solid var(--line);border-radius:999px;padding:3px}
+.lang button{border:0;background:transparent;color:var(--ink);font:600 14px Inter,sans-serif;padding:8px 14px;border-radius:999px;cursor:pointer;min-height:40px}
+.lang button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+
+/* hero */
+.hero{padding:28px 0 8px}
+.kicker{display:inline-block;background:var(--accent);color:#fff;font:700 13px Inter,sans-serif;letter-spacing:.06em;text-transform:uppercase;padding:6px 12px;border-radius:6px;transform:rotate(-1.5deg)}
+.hero h1{font-size:clamp(32px,7.5vw,64px);font-weight:800;margin:16px 0 12px;letter-spacing:-.01em}
+.hero h1 em{font-style:normal;color:var(--accent)}
+.hero p{font-size:clamp(16px,2.4vw,19px);color:var(--muted);max-width:640px;margin:0}
+
+/* start steps */
+.start{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:24px 0 8px}
+.step{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:14px;display:flex;gap:10px;align-items:flex-start}
+.step b{flex:none;width:28px;height:28px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font-size:14px}
+.step span{font-size:14.5px}
+.legend{display:flex;flex-wrap:wrap;gap:8px 16px;margin:14px 0 4px;font-size:14px;color:var(--muted)}
+
+/* chips */
+.chip{display:inline-flex;align-items:center;gap:4px;font:700 12px Inter,sans-serif;padding:4px 9px;border-radius:999px;white-space:nowrap}
+.chip.free{background:var(--free-soft);color:var(--free)}
+.chip.pro{background:var(--gold-soft);color:var(--gold)}
+
+/* org chart */
+.ceo{display:flex;flex-direction:column;align-items:center;margin:34px 0 0}
+.ceo .you{background:var(--ink);color:var(--bg);font:800 16px Unbounded,sans-serif;padding:12px 22px;border-radius:14px;box-shadow:var(--shadow)}
+.ceo .you small{display:block;font:500 12px Inter,sans-serif;opacity:.75;text-align:center;margin-top:2px}
+.ceo .stem{width:2px;height:22px;background:var(--line)}
+.team{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;align-items:start;border-top:2px solid var(--line);padding-top:22px;position:relative}
+
+/* badge cards */
+.badge{background:var(--paper);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.badge::before{content:"";position:absolute;top:10px;left:50%;width:44px;height:7px;margin-left:-22px;border-radius:6px;background:var(--bg);border:1px solid var(--line)}
+.badge summary{list-style:none;cursor:pointer;padding:28px 18px 16px;display:grid;grid-template-columns:52px 1fr;gap:4px 14px;align-items:start}
+.badge summary::-webkit-details-marker{display:none}
+.icon{grid-row:span 3;width:52px;height:52px;border-radius:14px;background:var(--accent-soft);display:grid;place-items:center;font-size:26px}
+.role-label{font-size:12px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.05em}
+.badge h3{font-size:18px;font-weight:600}
+.hook{font-size:15px;color:var(--ink);margin-top:2px}
+.meta{grid-column:2;display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:8px}
+.open-hint{font-size:13px;font-weight:600;color:var(--accent)}
+.badge[open] .open-hint .o{display:none}
+.badge:not([open]) .open-hint .c{display:none}
+.body{padding:0 18px 20px;border-top:1px dashed var(--line)}
+.body h4{font:700 13px Inter,sans-serif;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin:16px 0 8px}
+.body ol{margin:0;padding-left:20px}
+.body li{margin:4px 0;font-size:15px}
+.dl{display:inline-flex;align-items:center;gap:8px;margin:10px 0 0;background:var(--accent-soft);color:var(--accent);text-decoration:none;font-weight:600;font-size:14.5px;padding:10px 14px;border-radius:10px;min-height:44px}
+.prompt{position:relative;background:var(--code);color:var(--code-ink);border-radius:12px;padding:14px 14px 58px;font:14px/1.55 Inter,system-ui,sans-serif;white-space:pre-wrap;word-break:break-word}
+.copy{position:absolute;right:10px;bottom:10px;border:0;background:var(--accent);color:#fff;font:700 14px Inter,sans-serif;padding:10px 16px;border-radius:10px;cursor:pointer;min-height:42px}
+.copy.done{background:var(--free)}
+.note{margin-top:12px;font-size:14px;color:var(--muted);background:var(--bg);border-radius:10px;padding:10px 12px}
+.note b{color:var(--ink)}
+.pro-extra{margin-top:12px;font-size:14px;background:var(--gold-soft);border-radius:10px;padding:10px 12px}
+
+/* bonus */
+.bonus{margin:30px 0 0;background:var(--ink);color:var(--bg);border-radius:20px;overflow:hidden}
+.bonus summary{list-style:none;cursor:pointer;padding:22px 20px;display:flex;gap:14px;align-items:center}
+.bonus summary::-webkit-details-marker{display:none}
+.bonus .icon{background:rgba(255,255,255,.12);grid-row:auto}
+.bonus h3{font-size:19px}
+.bonus .hook{color:inherit;opacity:.8}
+.bonus .body{border-top:1px dashed rgba(255,255,255,.2)}
+.bonus .body h4{color:inherit;opacity:.7}
+.bonus .dl{background:var(--accent);color:#fff}
+.bonus .note{background:rgba(255,255,255,.08);color:inherit}
+.bonus .note b{color:inherit}
+
+footer{margin:34px 0 40px;font-size:14px;color:var(--muted)}
+.warn{background:var(--paper);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;padding:14px 16px;color:var(--ink);margin-bottom:16px}
+
+@media (max-width:720px){
+  .start{grid-template-columns:1fr}
+  .team{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div class="org" data-t="org"></div>
+    <div class="lang" role="group" aria-label="Язык / Тіл">
+      <button type="button" data-lang="kz" aria-pressed="false">Қазақша</button>
+      <button type="button" data-lang="ru" aria-pressed="true">Русский</button>
+    </div>
+  </div>
+
+  <header class="hero">
+    <span class="kicker" data-t="kicker"></span>
+    <h1 data-t="title"></h1>
+    <p data-t="lead"></p>
+  </header>
+
+  <section class="start" aria-label="start">
+    <div class="step"><b>1</b><span data-t="s1"></span></div>
+    <div class="step"><b>2</b><span data-t="s2"></span></div>
+    <div class="step"><b>3</b><span data-t="s3"></span></div>
+  </section>
+  <div class="legend">
+    <span><span class="chip free" data-t="free"></span> <span data-t="freeTxt"></span></span>
+    <span><span class="chip pro">⭐ Pro</span> <span data-t="proTxt"></span></span>
+  </div>
+
+  <div class="ceo" aria-hidden="true">
+    <div class="you">👑 <span data-t="you"></span><small>CEO</small></div>
+    <div class="stem"></div>
+  </div>
+  <main class="team" id="team"></main>
+
+  <details class="bonus" id="bonus"></details>
+
+  <footer>
+    <div class="warn" data-t="warn"></div>
+    <div data-t="foot"></div>
+  </footer>
+</div>
+
+<script>
+const UI = {
+  ru:{
+    org:"ВКУ им. С. Аманжолова · Цифровой офис",
+    kicker:"Практикум для предпринимателей",
+    title:"Ты — CEO.<br><em>Claude</em> — твоя команда",
+    lead:"8 сотрудников, которые не уходят в отпуск. Выберите сотрудника, скопируйте готовое задание и попробуйте прямо сейчас — с телефона или компьютера.",
+    s1:'Откройте <a href="https://claude.ai" target="_blank" rel="noopener">claude.ai</a> или приложение Claude',
+    s2:"Войдите через Google или почту",
+    s3:"Нажмите на сотрудника ниже и скопируйте задание",
+    free:"🆓 Бесплатно", freeTxt:"работает на бесплатном аккаунте",
+    proTxt:"нужна платная подписка Pro",
+    you:"ТЫ",
+    steps:"Как нанять", task:"Первое задание", copy:"Копировать", copied:"Скопировано ✓",
+    open:"Открыть", close:"Свернуть", file:"Скачать учебный файл",
+    warn:"<b>Claude может ошибаться.</b> Цифры, договоры и важные решения проверяет человек — бухгалтер, юрист, вы сами. Не загружайте паспортные данные, банковские реквизиты и персональные данные клиентов.",
+    foot:"Все компании и данные в учебных файлах вымышлены. © 2026 Цифровой офис ВКУ им. С. Аманжолова"
+  },
+  kz:{
+    org:"С. Аманжолов атындағы ШҚУ · Цифрлық офис",
+    kicker:"Кәсіпкерлерге арналған практикум",
+    title:"Сен — CEO.<br><em>Claude</em> — сенің командаң",
+    lead:"Демалысқа шықпайтын 8 қызметкер. Қызметкерді таңдап, дайын тапсырманы көшіріп, дәл қазір байқап көріңіз — телефоннан немесе компьютерден.",
+    s1:'<a href="https://claude.ai" target="_blank" rel="noopener">claude.ai</a> сайтын немесе Claude қосымшасын ашыңыз',
+    s2:"Google немесе пошта арқылы кіріңіз",
+    s3:"Төмендегі қызметкерді басып, тапсырманы көшіріңіз",
+    free:"🆓 Тегін", freeTxt:"тегін аккаунтта жұмыс істейді",
+    proTxt:"ақылы Pro жазылымы керек",
+    you:"СЕН",
+    steps:"Қалай жұмысқа алу керек", task:"Алғашқы тапсырма", copy:"Көшіру", copied:"Көшірілді ✓",
+    open:"Ашу", close:"Жабу", file:"Оқу файлын жүктеу",
+    warn:"<b>Claude қателесуі мүмкін.</b> Сандарды, келісімшарттарды және маңызды шешімдерді адам тексереді — бухгалтер, заңгер, өзіңіз. Төлқұжат деректерін, банк деректемелерін және клиенттердің жеке деректерін жүктемеңіз.",
+    foot:"Оқу файлдарындағы барлық компаниялар мен деректер ойдан шығарылған. © 2026 С. Аманжолов атындағы ШҚУ Цифрлық офисі"
+  }
+};
+
+const ROLES = [
+ { id:"assistant", icon:"🗓️", tier:"pro",
+   ru:{ label:"Сотрудник №1", name:"Личный ассистент", hook:"Каждое утро сам присылает сводку дня",
+     steps:["Подключите Gmail и Google Календарь: Настройки → Коннекторы.","В левом меню откройте «Scheduled» (Запланированные) → «New task».","Вставьте задание ниже и выберите расписание: каждый день, 08:00."],
+     prompt:"Каждое утро в 8:00 подготовь мне сводку дня:\n1. Встречи из календаря на сегодня — время, с кем, о чём.\n2. Письма за последние 24 часа, на которые нужно ответить сегодня. Для каждого — одна строка: от кого и что нужно сделать.\n3. Три главных приоритета на день.\nПиши коротко, списком, на русском языке.",
+     note:"<b>Фишка:</b> вы ничего не запускаете. Задание выполняется по расписанию само, а готовая сводка ждёт вас в разделе «Scheduled»." },
+   kz:{ label:"№1 қызметкер", name:"Жеке ассистент", hook:"Күн сайын таңертең күн шолуын өзі жібереді",
+     steps:["Gmail мен Google Күнтізбені қосыңыз: Баптаулар → Коннекторлар.","Сол жақ мәзірде «Scheduled» бөлімін ашып, «New task» басыңыз.","Төмендегі тапсырманы қойып, кестені таңдаңыз: күн сайын, 08:00."],
+     prompt:"Күн сайын таңғы 8:00-де маған күннің қысқаша шолуын дайында:\n1. Бүгінгі күнтізбедегі кездесулер — уақыты, кіммен, не туралы.\n2. Соңғы 24 сағатта келген, бүгін жауап беру керек хаттар. Әрқайсысына бір жол: кімнен және не істеу керек.\n3. Күннің ең маңызды үш басымдығы.\nҚысқа, тізіммен, қазақ тілінде жаз.",
+     note:"<b>Ерекшелігі:</b> сіз ештеңе іске қоспайсыз. Тапсырма кесте бойынша өзі орындалады, дайын шолу «Scheduled» бөлімінде күтіп тұрады." } },
+
+ { id:"smm", icon:"📸", tier:"free",
+   ru:{ label:"Сотрудник №2", name:"СММ-менеджер", hook:"Фото товара → подписи и хештеги на двух языках",
+     steps:["Сфотографируйте свой товар, блюдо или витрину.","Прикрепите фото в чат (значок «+») и вставьте задание.","Впишите в квадратные скобки, чем занимается ваш бизнес."],
+     prompt:"Ты — СММ-менеджер моего бизнеса: [чем занимаетесь, город].\nПо фото товара:\n1. Напиши 3 варианта подписи для Instagram: продающий, с историей, с юмором. Каждый — до 60 слов.\n2. Каждый вариант дай на казахском и на русском. Казахский — живой, не дословный перевод.\n3. Добавь 10 хештегов: 5 на казахском, 5 на русском.\n4. Предложи идею для сторис с опросом.",
+     extra:"⭐ <b>Pro:</b> готовую афишу к посту можно сделать в Claude Design — <a href=\"https://claude.ai/design\" target=\"_blank\" rel=\"noopener\">claude.ai/design</a>." },
+   kz:{ label:"№2 қызметкер", name:"СММ-менеджер", hook:"Тауар фотосы → екі тілде жазба мен хештегтер",
+     steps:["Тауарыңызды, тағамыңызды немесе витринаңызды суретке түсіріңіз.","Фотоны чатқа тіркеңіз («+» белгісі) және тапсырманы қойыңыз.","Тік жақшаның ішіне бизнесіңіз не істейтінін жазыңыз."],
+     prompt:"Сен менің бизнесімнің СММ-менеджерісің: [немен айналысамыз, қай қала].\nТауардың фотосы бойынша:\n1. Instagram-ға 3 түрлі жазба жаз: сатуға арналған, қызықты оқиғамен, әзілмен. Әрқайсысы 60 сөзден аспасын.\n2. Әр нұсқаны қазақша және орысша бер. Қазақшасы аудармадай емес, табиғи болсын.\n3. 10 хештег қос: 5 қазақша, 5 орысша.\n4. Сауалнамасы бар сторис идеясын ұсын.",
+     extra:"⭐ <b>Pro:</b> жазбаға дайын афишаны Claude Design-та жасауға болады — <a href=\"https://claude.ai/design\" target=\"_blank\" rel=\"noopener\">claude.ai/design</a>." } },
+
+ { id:"analyst", icon:"🔎", tier:"pro",
+   ru:{ label:"Сотрудник №3", name:"Маркетолог-аналитик", hook:"Исследует рынок и следит за конкурентами",
+     steps:["Под полем ввода нажмите кнопку «Research» (Исследование) — она станет синей.","Вставьте задание и впишите свою нишу и город.","Подождите 5–15 минут: придёт отчёт со ссылками на все источники."],
+     prompt:"Проведи исследование рынка для моего бизнеса: [ниша] в городе [город], Казахстан.\nНужно:\n1. Основные конкуренты: 5–7 компаний, их цены, сильные и слабые стороны.\n2. Какие акции и предложения у них сейчас.\n3. Что клиенты хвалят и ругают в отзывах.\n4. 3 свободные ниши или идеи, как мне выделиться.\nСведи всё в таблицу и дай ссылки на все источники.",
+     note:"<b>Фишка:</b> сделайте слежку за конкурентами еженедельной. В разделе «Scheduled» создайте задание «Каждый понедельник проверяй сайты и Instagram [список конкурентов] и пиши, что изменилось в ценах и акциях»." },
+   kz:{ label:"№3 қызметкер", name:"Маркетолог-талдаушы", hook:"Нарықты зерттеп, бәсекелестерді бақылайды",
+     steps:["Енгізу өрісінің астындағы «Research» батырмасын басыңыз — ол көк түске боялады.","Тапсырманы қойып, өз саласыңыз бен қалаңызды жазыңыз.","5–15 минут күтіңіз: барлық дереккөзге сілтемесі бар есеп келеді."],
+     prompt:"Менің бизнесім үшін нарықты зерттеп бер: [сала], [қала], Қазақстан.\nҚажет:\n1. Негізгі бәсекелестер: 5–7 компания, олардың бағалары, күшті және әлсіз жақтары.\n2. Қазір олардың қандай акциялары мен ұсыныстары бар.\n3. Клиенттер пікірлерде нені мақтап, нені сынайды.\n4. Ерекшеленуге көмектесетін 3 бос нише немесе идея.\nБәрін кестеге жинап, барлық дереккөзге сілтеме бер.",
+     note:"<b>Ерекшелігі:</b> бәсекелестерді апта сайын бақылаңыз. «Scheduled» бөлімінде тапсырма жасаңыз: «Әр дүйсенбі сайын [бәсекелестер тізімі] сайттары мен Instagram-ын тексеріп, бағалар мен акцияларда не өзгергенін жаз»." } },
+
+ { id:"accountant", icon:"🧾", tier:"free", file:"materials/cheki.jpg",
+   ru:{ label:"Сотрудник №4", name:"Бухгалтер-помощник", hook:"Фото чеков → таблица Excel с формулами",
+     steps:["Скачайте учебное фото чеков или сфотографируйте свои.","Прикрепите фото в чат и вставьте задание.","Скачайте готовый файл Excel и откройте его."],
+     prompt:"Ты — мой помощник бухгалтера. На фото чеки от поставщиков за октябрь.\n1. Перенеси все позиции в таблицу Excel: дата, поставщик, БИН/ИИН, товар, количество, цена, сумма.\n2. Добавь лист «Итоги»: расходы по каждому поставщику и общая сумма за месяц — формулами, а не готовыми числами.\n3. Проверь, совпадает ли сумма позиций с «ИТОГО» на каждом чеке. Если нет — выдели красным.\n4. Сделай круговую диаграмму расходов по поставщикам.",
+     note:"<b>Фишка:</b> если подключена почта Gmail, попросите: «Найди в почте все счета от поставщиков за октябрь и сведи их в такую же таблицу».<br>Если файл не создаётся — включите «Создание файлов» в Настройки → Возможности (Capabilities)." },
+   kz:{ label:"№4 қызметкер", name:"Бухгалтер көмекшісі", hook:"Чек фотосы → формулалары бар Excel кестесі",
+     steps:["Оқу чектерінің фотосын жүктеп алыңыз немесе өз чектеріңізді суретке түсіріңіз.","Фотоны чатқа тіркеп, тапсырманы қойыңыз.","Дайын Excel файлын жүктеп алып, ашыңыз."],
+     prompt:"Сен менің бухгалтер көмекшімсің. Фотода жеткізушілердің қазан айындағы чектері.\n1. Барлық позицияны Excel кестесіне көшір: күні, жеткізуші, БСН/ЖСН, тауар, саны, бағасы, сомасы.\n2. «Қорытынды» парағын қос: әр жеткізуші бойынша шығын және айдың жалпы сомасы — дайын сандармен емес, формулалармен.\n3. Әр чектегі позициялар сомасы «ИТОГО»-мен сәйкес келе ме, тексер. Сәйкес келмесе — қызылмен белгіле.\n4. Жеткізушілер бойынша шығындардың дөңгелек диаграммасын жаса.",
+     note:"<b>Ерекшелігі:</b> Gmail поштасы қосылған болса, былай сұраңыз: «Поштадан жеткізушілердің қазан айындағы барлық шотын тауып, осындай кестеге жинап бер».<br>Файл жасалмаса — Баптаулар → Мүмкіндіктер (Capabilities) бөлімінде «Файл жасау» функциясын қосыңыз." } },
+
+ { id:"designer", icon:"🎨", tier:"free",
+   ru:{ label:"Сотрудник №5", name:"Дизайнер", hook:"Презентация для гранта или инвестора за 5 минут",
+     steps:["Вставьте задание и замените текст в квадратных скобках своими данными.","Попросите правки обычными словами: «сделай 3-й слайд короче», «добавь цифры».","Скачайте файл .pptx и откройте в PowerPoint."],
+     prompt:"Сделай презентацию PowerPoint на 7 слайдов для заявки на грант или встречи с инвестором.\nМой бизнес: [название, что делаете, город, сколько лет работаете, сколько сотрудников].\nНа что нужны деньги: [сумма и цель].\nСлайды: 1) название и суть в одной фразе, 2) проблема клиента, 3) наше решение, 4) рынок и конкуренты, 5) цифры и достижения, 6) на что пойдут деньги и что это даст, 7) контакты.\nСтиль: тёплые цвета, крупный текст, минимум слов на слайде. Цифры, которых нет в моём описании, не придумывай — оставь [пропуск].",
+     extra:"⭐ <b>Pro:</b> меню, визитку и прайс в фирменном стиле — в Claude Design (<a href=\"https://claude.ai/design\" target=\"_blank\" rel=\"noopener\">claude.ai/design</a>). Макет можно править самой и скачать в PDF." },
+   kz:{ label:"№5 қызметкер", name:"Дизайнер", hook:"Грантқа немесе инвесторға 5 минутта презентация",
+     steps:["Тапсырманы қойып, тік жақшадағы мәтінді өз деректеріңізбен ауыстырыңыз.","Түзетулерді қарапайым сөзбен сұраңыз: «3-слайдты қысқарт», «сандар қос».","Дайын .pptx файлын жүктеп, PowerPoint-та ашыңыз."],
+     prompt:"Грантқа өтінім беруге немесе инвестормен кездесуге арналған 7 слайдтан тұратын PowerPoint презентациясын жаса.\nМенің бизнесім: [атауы, немен айналысамыз, қала, неше жыл жұмыс істейміз, қанша қызметкер].\nАқша не үшін керек: [сомасы және мақсаты].\nСлайдтар: 1) атауы және мәні бір сөйлеммен, 2) клиенттің мәселесі, 3) біздің шешім, 4) нарық және бәсекелестер, 5) сандар мен жетістіктер, 6) ақша неге жұмсалады және не береді, 7) байланыс.\nСтилі: жылы түстер, ірі мәтін, слайдта сөз аз болсын. Сипаттамамда жоқ сандарды ойдан шығарма — [бос орын] қалдыр.",
+     extra:"⭐ <b>Pro:</b> мәзірді, визитканы және прайсты фирмалық стильде Claude Design-та жасаңыз (<a href=\"https://claude.ai/design\" target=\"_blank\" rel=\"noopener\">claude.ai/design</a>). Макетті өзіңіз түзетіп, PDF түрінде жүктей аласыз." } },
+
+ { id:"coach", icon:"🎙️", tier:"free",
+   ru:{ label:"Сотрудник №6", name:"Бизнес-тренер", hook:"Голосом репетирует с вами трудные переговоры",
+     steps:["Откройте приложение Claude на телефоне.","Вставьте задание текстом, выберите роль в скобках и отправьте.","Нажмите значок голосового режима и разговаривайте. Скажите «стоп», чтобы получить разбор."],
+     prompt:"Давай отрепетируем переговоры. Ты играешь роль: [поставщик, который поднимает цены на 20% / банк, где я прошу кредит / арендодатель, который хочет поднять аренду].\nПравила:\n— Будь жёстким, но реалистичным собеседником, возражай.\n— Отвечай коротко, 2–3 предложения, как в живом разговоре.\n— Когда я скажу «стоп», выйди из роли и разбери: что я сделала хорошо, где уступила лишнее и 3 фразы, которые лучше сказать в следующий раз.\nНачинай ты.",
+     note:"<b>Если голосовой режим плохо понимает ваш язык</b> — продолжайте текстом. Тренировка и разбор работают так же." },
+   kz:{ label:"№6 қызметкер", name:"Бизнес-жаттықтырушы", hook:"Қиын келіссөздерді сізбен дауыстап жаттықтырады",
+     steps:["Телефоныңызда Claude қосымшасын ашыңыз.","Тапсырманы мәтінмен қойып, жақшадағы рөлді таңдап, жіберіңіз.","Дауыс режимінің белгісін басып, сөйлесіңіз. Талдау алу үшін «тоқта» деңіз."],
+     prompt:"Келіссөзді жаттықтырайық. Сен мына рөлді ойнайсың: [бағаны 20%-ға көтергісі келетін жеткізуші / мен несие сұрайтын банк / жалдау ақысын көтергісі келетін жалға беруші].\nЕрежелер:\n— Қатал, бірақ шынайы әңгімелесуші бол, қарсы дәлел айт.\n— Қысқа жауап бер, 2–3 сөйлем, нақты сөйлесіп тұрғандай.\n— Мен «тоқта» десем, рөлден шығып, талдау жаса: мен нені жақсы істедім, қай жерде артық жол бердім және келесіде айтуға болатын 3 сөйлем.\nСен баста.",
+     note:"<b>Дауыс режимі тіліңізді нашар түсінсе</b> — мәтінмен жалғастырыңыз. Жаттығу мен талдау дәл солай жұмыс істейді." } },
+
+ { id:"hr", icon:"🤝", tier:"free", file:"materials/reglament.pdf",
+   ru:{ label:"Сотрудник №7", name:"HR-менеджер", hook:"Из регламента — тест для новых сотрудников",
+     steps:["Скачайте учебный регламент кофейни или возьмите свой.","Прикрепите файл в чат и вставьте задание.","Пройдите тест прямо в чате — так его увидит и ваш сотрудник."],
+     prompt:"Ты — HR-менеджер. Это регламент работы бариста в моей кофейне.\n1. Сделай интерактивный тест из 10 вопросов с вариантами ответа для новых сотрудников. После ответа показывай, верно или нет, и объяснение со ссылкой на пункт регламента.\n2. Сделай шпаргалку на одну страницу: 10 главных правил простыми словами.\n3. Напиши текст вакансии «Бариста» для объявления — на казахском и на русском." },
+   kz:{ label:"№7 қызметкер", name:"HR-менеджер", hook:"Регламенттен жаңа қызметкерлерге тест",
+     steps:["Кофеханаға арналған оқу регламентін жүктеп алыңыз немесе өз регламентіңізді алыңыз.","Файлды чатқа тіркеп, тапсырманы қойыңыз.","Тестті чаттың ішінде тапсырып көріңіз — қызметкеріңіз де оны осылай көреді."],
+     prompt:"Сен HR-менеджерсің. Бұл менің кофеханамдағы бариста жұмысының регламенті.\n1. Жаңа қызметкерлерге арналған жауап нұсқалары бар 10 сұрақтан тұратын интерактивті тест жаса. Жауаптан кейін дұрыс па, қате ме екенін және регламенттің тармағына сілтеме жасап түсіндірмесін көрсет.\n2. Бір беттік жадынама жаса: қарапайым тілмен 10 басты ереже.\n3. «Бариста» бос орнына хабарландыру мәтінін жаз — қазақша және орысша." } },
+
+ { id:"lawyer", icon:"⚖️", tier:"free", file:"materials/dogovor-arendy.pdf",
+   ru:{ label:"Сотрудник №8", name:"Помощник юриста", hook:"Находит подводные камни в договоре",
+     steps:["Скачайте учебный договор аренды — в нём спрятано больше 8 подвохов. Или загрузите свой, убрав паспортные данные и реквизиты.","Прикрепите файл в чат и вставьте задание.","Окончательное решение по договору принимайте вместе с юристом."],
+     prompt:"Я арендатор — ИП, открываю кофейню. Проверь этот договор аренды с моей стороны.\n1. Найди все пункты, которые невыгодны или опасны для меня. Для каждого: номер пункта, чем опасен простыми словами и насколько серьёзно (высокий / средний / низкий риск).\n2. Предложи, как переформулировать каждый пункт, чтобы было честно для обеих сторон.\n3. Каких важных условий в договоре не хватает?\n4. Составь вежливое письмо арендодателю с предложением правок.\nОтвечай простым языком, без юридического жаргона." },
+   kz:{ label:"№8 қызметкер", name:"Заңгер көмекшісі", hook:"Келісімшарттағы жасырын қауіптерді табады",
+     steps:["Оқу мақсатындағы жалдау шартын жүктеп алыңыз — онда 8-ден астам қауіпті тармақ жасырылған. Немесе төлқұжат деректері мен деректемелерді алып тастап, өз шартыңызды жүктеңіз.","Файлды чатқа тіркеп, тапсырманы қойыңыз.","Шарт бойынша соңғы шешімді заңгермен бірге қабылдаңыз."],
+     prompt:"Мен жалға алушымын — ЖК, кофехана ашып жатырмын. Осы жалдау шартын менің тарапымнан тексер.\n1. Маған тиімсіз немесе қауіпті барлық тармақты тап. Әрқайсысы үшін: тармақ нөмірі, неге қауіпті екені қарапайым тілмен және қаншалықты маңызды (жоғары / орташа / төмен тәуекел).\n2. Екі тарапқа да әділ болуы үшін әр тармақты қалай қайта жазуға болатынын ұсын.\n3. Шартта қандай маңызды талаптар жетіспейді?\n4. Жалға берушіге түзетулер ұсынатын сыпайы хат жаз.\nЗаң терминдерінсіз, қарапайым тілмен жауап бер." } }
+];
+
+const BONUS = {
+  icon:"✨", file:"materials/moy-brend-skill.zip",
+  ru:{ label:"Бонус · 🆓 Бесплатно", name:"Научи один раз — пишет твоим голосом", hook:"Навык «Мой бренд»: Claude помнит тон, факты и правила вашей компании в каждом новом чате",
+    stepsTitle:"Попробуйте на учебной кофейне",
+    steps:["Скачайте ZIP-файл навыка кофейни «Шуақ Кофе» (не распаковывайте).","Включите «Создание файлов / выполнение кода»: Настройки → Возможности (Capabilities).","Откройте Customize → Skills и загрузите ZIP-файл.","Откройте новый чат и напишите: «Напиши пост про новый тыквенный латте». Claude сам напишет в стиле кофейни, на двух языках."],
+    task:"Создайте навык для своего бизнеса",
+    prompt:"Помоги создать навык (skill) «Голос моего бренда» для моего бизнеса.\nЗадавай мне вопросы по одному: чем занимается бизнес, кто наши клиенты, каким тоном мы общаемся, какие слова используем и каких избегаем, важные факты о компании (адрес, часы работы, акции), как отвечаем на жалобы.\nКогда соберёшь всё — сделай файл SKILL.md и упакуй его в ZIP-архив, чтобы я загрузила его в Customize → Skills.",
+    note:"<b>Зачем это нужно:</b> больше не надо каждый раз объяснять Claude, кто вы и как пишете. Навык включается сам, когда задача ему подходит." },
+  kz:{ label:"Бонус · 🆓 Тегін", name:"Бір рет үйрет — сенің дауысыңмен жазады", hook:"«Менің брендім» дағдысы: Claude әр жаңа чатта компанияңыздың үнін, деректерін және ережелерін есте ұстайды",
+    stepsTitle:"Оқу кофеханасында байқап көріңіз",
+    steps:["«Шуақ Кофе» кофеханасы дағдысының ZIP-файлын жүктеп алыңыз (ашпаңыз).","«Файл жасау / код орындау» функциясын қосыңыз: Баптаулар → Мүмкіндіктер (Capabilities).","Customize → Skills бөлімін ашып, ZIP-файлды жүктеңіз.","Жаңа чат ашып, жазыңыз: «Жаңа асқабақ латтесі туралы жазба жаз». Claude кофехана стилінде, екі тілде өзі жазады."],
+    task:"Өз бизнесіңізге дағды жасаңыз",
+    prompt:"Менің бизнесіме «Менің брендімнің дауысы» дағдысын (skill) жасауға көмектес.\nМаған сұрақтарды бір-бірден қой: бизнес немен айналысады, клиенттеріміз кім, қандай үнмен сөйлесеміз, қандай сөздерді қолданамыз және қандайларын қолданбаймыз, компания туралы маңызды деректер (мекенжай, жұмыс уақыты, акциялар), шағымдарға қалай жауап береміз.\nБәрін жинап болған соң SKILL.md файлын жасап, оны Customize → Skills бөліміне жүктеуім үшін ZIP-архивке сал.",
+    note:"<b>Не үшін керек:</b> енді Claude-қа әр жолы кім екеніңізді және қалай жазатыныңызды түсіндірудің қажеті жоқ. Тапсырма сәйкес келгенде дағды өзі қосылады." }
+};
+
+let lang = "ru";
+try { const q = new URLSearchParams(location.search).get("lang"); if (q==="kz"||q==="ru") lang=q; else { const s=localStorage.getItem("biz-lang"); if (s==="kz"||s==="ru") lang=s; } } catch(e){}
+
+const esc = s => s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+
+function stepsHTML(arr){ return "<ol>"+arr.map(s=>"<li>"+s+"</li>").join("")+"</ol>"; }
+function promptHTML(p,u){ return '<div class="prompt"><span class="ptext">'+esc(p)+'</span><button type="button" class="copy">'+u.copy+'</button></div>'; }
+function tierChip(t,u){ return t==="pro" ? '<span class="chip pro">⭐ Pro</span>' : '<span class="chip free">'+u.free+'</span>'; }
+
+function render(){
+  const u = UI[lang];
+  document.documentElement.lang = lang==="kz" ? "kk" : "ru";
+  document.querySelectorAll("[data-t]").forEach(el=>{ el.innerHTML = u[el.dataset.t]; });
+  document.querySelectorAll(".lang button").forEach(b=>b.setAttribute("aria-pressed", b.dataset.lang===lang));
+  document.title = lang==="kz" ? "Claude — сенің командаң" : "Claude — твоя команда";
+
+  const openIds = new Set([...document.querySelectorAll("details[open]")].map(d=>d.id));
+  document.getElementById("team").innerHTML = ROLES.map(r=>{
+    const t = r[lang];
+    return '<details class="badge" id="'+r.id+'"><summary>'+
+      '<div class="icon" aria-hidden="true">'+r.icon+'</div>'+
+      '<div class="role-label">'+t.label+'</div>'+
+      '<h3>'+t.name+'</h3>'+
+      '<div class="hook">'+t.hook+'</div>'+
+      '<div class="meta">'+tierChip(r.tier,u)+'<span class="open-hint"><span class="o">'+u.open+' ↓</span><span class="c">'+u.close+' ↑</span></span></div>'+
+      '</summary><div class="body">'+
+      '<h4>'+u.steps+'</h4>'+stepsHTML(t.steps)+
+      (r.file ? '<a class="dl" href="'+r.file+'" download>⬇ '+u.file+'</a>' : '')+
+      '<h4>'+u.task+'</h4>'+promptHTML(t.prompt,u)+
+      (t.note ? '<div class="note">'+t.note+'</div>' : '')+
+      (t.extra ? '<div class="pro-extra">'+t.extra+'</div>' : '')+
+      '</div></details>';
+  }).join("");
+
+  const b = BONUS[lang];
+  const bonus = document.getElementById("bonus");
+  bonus.innerHTML = '<summary><div class="icon" aria-hidden="true">'+BONUS.icon+'</div><div>'+
+    '<div class="role-label" style="color:inherit;opacity:.7">'+b.label+'</div>'+
+    '<h3>'+b.name+'</h3><div class="hook">'+b.hook+'</div></div></summary>'+
+    '<div class="body"><h4>'+b.stepsTitle+'</h4>'+stepsHTML(b.steps)+
+    '<a class="dl" href="'+BONUS.file+'" download>⬇ '+u.file+' (ZIP)</a>'+
+    '<h4>'+b.task+'</h4>'+promptHTML(b.prompt,u)+
+    '<div class="note">'+b.note+'</div></div>';
+
+  openIds.forEach(id=>{ const d=document.getElementById(id); if(d) d.open=true; });
+}
+
+document.addEventListener("click", e=>{
+  const lb = e.target.closest(".lang button");
+  if (lb){ lang = lb.dataset.lang; try{ localStorage.setItem("biz-lang",lang); }catch(err){} render(); return; }
+  const cb = e.target.closest(".copy");
+  if (cb){
+    const text = cb.parentElement.querySelector(".ptext").textContent;
+    const ok = ()=>{ cb.textContent = UI[lang].copied; cb.classList.add("done"); setTimeout(()=>{ cb.textContent = UI[lang].copy; cb.classList.remove("done"); },1800); };
+    const fallback = ()=>{ const ta=document.createElement("textarea"); ta.value=text; ta.style.position="fixed"; ta.style.opacity="0"; document.body.appendChild(ta); ta.select(); try{document.execCommand("copy"); ok();}catch(err){} ta.remove(); };
+    if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(text).then(ok, fallback); else fallback();
+  }
+});
+
+render();
+if (location.hash){ const d=document.getElementById(location.hash.slice(1)); if(d&&d.tagName==="DETAILS"){ d.open=true; } }
+</script>
+</body>
+</html>
